@@ -1,4 +1,5 @@
 import { loadConractors } from './load-contractots.js';
+import { getListMapMode } from './page-states.js';
 
 const tabListMap = document.querySelector('.tabs--toggle-list-map');
 const tabListMapBtns = tabListMap.querySelectorAll('.btn');
@@ -10,11 +11,17 @@ const toggleButtons = (tabs) => {
   tabs.forEach((btn) => btn.classList.toggle('is-active'));
 };
 
-const ListMapClick = (evt) => {
+const ListMapClick = () => {
   toggleButtons(tabListMapBtns);
   loadConractors();
+  if (getListMapMode() === 'MapMode') {
+    tabBuySell.style.display = 'none';
+  } else {
+    tabBuySell.style.display = null;
+  }
+
   // eslint-disable-next-line no-console
-  console.log(evt.target);
+  console.log(getListMapMode());
 };
 
 const BuySellClick = (evt) => {

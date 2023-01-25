@@ -15,5 +15,3 @@ getData(USER_URL, renderUser, hiddenUser);
 
 initChangeMode();
 checkboxCustom.addEventListener('change', loadConractors);
-
-//setTimeout(ClearList, 3000);
