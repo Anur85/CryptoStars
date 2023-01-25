@@ -14,16 +14,19 @@ const isSellerMode = () => {
 };
 
 const filterByVerified = (contractors) => {
-  // eslint-disable-next-line no-console
-  console.log('contractors>>', contractors);
   const filteredOffers = [];
   for (const contractor of contractors) {
+    // eslint-disable-next-line no-console
+    console.log(
+      '<<contractor.isVerified === isVerifiedCustom() && contractor.status === isSellerMode()>>>>',
+      contractor.isVerified === isVerifiedCustom() && contractor.status === isSellerMode()
+    );
     if (contractor.isVerified === isVerifiedCustom() && contractor.status === isSellerMode()) {
       filteredOffers.push(contractor);
     }
   }
   // eslint-disable-next-line no-console
-  console.log('filteredOffers>>', filteredOffers);
+  //console.log('filteredOffers>>', filteredOffers);
   renderContractors(filteredOffers);
 };
 
