@@ -5,9 +5,11 @@ const userName = profile.querySelector('.user-profile__name').querySelector('spa
 
 const getBalanceFromObject = (balances, currency) => {
   let amount = 0;
-  for (const balance of balances) {
-    if (balance.currency === currency) {
-      amount = balance.amount;
+  if (balances) {
+    for (const balance of balances) {
+      if (balance.currency === currency) {
+        amount = balance.amount;
+      }
     }
   }
   return amount;
