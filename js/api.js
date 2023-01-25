@@ -9,6 +9,8 @@ const getData = async (GET_URL, onSuccess, onFail) => {
     const offers = await response.json();
     onSuccess(offers);
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('error>>>', error);
     onFail(error.message);
   }
 };

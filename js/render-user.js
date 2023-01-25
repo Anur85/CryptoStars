@@ -14,9 +14,9 @@ const getBalanceFromObject = (balances, currency) => {
 };
 
 const renderUser = (user) => {
-  userName.innerHTML = user.userName;
-  userCryptoBalance.innerHTML = getBalanceFromObject(user.balances, 'KEKS');
-  userFiatBalance.innerHTML = getBalanceFromObject(user.balances, 'RUB');
+  userName.textContent = user.userName;
+  userCryptoBalance.textContent = getBalanceFromObject(user.balances, 'KEKS');
+  userFiatBalance.textContent = getBalanceFromObject(user.balances, 'RUB');
 };
 
 const hiddenUser = () => {
