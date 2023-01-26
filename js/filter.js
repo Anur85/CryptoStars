@@ -1,6 +1,6 @@
 import { getListMapMode, getBuySellMode } from './page-states.js';
-
 import { renderContractors } from './render-list-contractors.js';
+import { setPins, initMap } from './map.js';
 
 const checkboxCustom = document.querySelector('#checked-users');
 
@@ -34,13 +34,38 @@ const filterByVerified = (contractors) => {
     // eslint-disable-next-line no-console
     //console.log('*************************************');
 
-    if (contractor.isVerified === isVerifiedCustom() && contractor.status === isSellerMode()) {
-      filteredOffers.push(contractor);
+    if (!isVerifiedCustom()) {
+      if (contractor.status === isSellerMode()) {
+        filteredOffers.push(contractor);
+      }
+    } else {
+      if (
+        contractor.isVerified === true &&
+        contractor.status === isSellerMode()
+      ) {
+        filteredOffers.push(contractor);
+      }
     }
+
+    // if (
+    //   if (isVerifiedCustom()) {
+    //   contractor.isVerified === isVerifiedCustom()
+    // } &&
+    //   contractor.status === isSellerMode()
+    // ) {
+    //   filteredOffers.push(contractor);
+    // }
   }
   // eslint-disable-next-line no-console
   //console.log('filteredOffers>>', filteredOffers);
-  renderContractors(filteredOffers);
+  if (filteredOffers.length < 0) {
+    renderContractors(filteredOffers);
+  }
+
+  initMap();
+  setPins(filteredOffers);
+
+  //TODO загрузку карты продумать наверное здесь
 };
 
 //const sortData = (AllData) => {}

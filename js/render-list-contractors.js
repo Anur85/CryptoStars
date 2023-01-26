@@ -1,5 +1,12 @@
-const userTableRowTempldate = document.querySelector('#user-table-row__template').content.querySelector('.users-list__table-row');
+const userTableRowTempldate = document
+  .querySelector('#user-table-row__template')
+  .content.querySelector('.users-list__table-row');
 const tableBody = document.querySelector('.users-list__table-body');
+
+const baloonTemplate = document
+  .querySelector('#map-baloon__template')
+  .content.querySelector('.user-card');
+//const mapContainer = document.querySelector('.container--map');
 
 // const cntr = [
 //   {
@@ -72,6 +79,12 @@ const ClearList = () => {
   tableBody.innerHTML = '';
   noResultSearch.style.display = null;
 };
+
+const ClearPopup = () => {
+  //TODO  DElete loyer pins
+  //mapContainer.style.display = null;
+};
+
 const renderContractors = (listContractors) => {
   tableBody.innerHTML = '';
   if (listContractors.length === 0) {
@@ -81,14 +94,24 @@ const renderContractors = (listContractors) => {
       const userTableRowFragment = document.createDocumentFragment();
       const userTableRowElem = userTableRowTempldate.cloneNode(true);
 
-      const tableUser = userTableRowElem.querySelector('.users-list__table-name');
+      const tableUser = userTableRowElem.querySelector(
+        '.users-list__table-name'
+      );
       const tableUserName = tableUser.querySelector('span');
       const tableUserStar = tableUser.querySelector('svg');
 
-      const tableCurrency = userTableRowElem.querySelector('.users-list__table-currency');
-      const tableExchangeRate = userTableRowElem.querySelector('.users-list__table-exchangerate');
-      const tableCashLimit = userTableRowElem.querySelector('.users-list__table-cashlimit');
-      const tableBadgesList = userTableRowElem.querySelector('.users-list__badges-list');
+      const tableCurrency = userTableRowElem.querySelector(
+        '.users-list__table-currency'
+      );
+      const tableExchangeRate = userTableRowElem.querySelector(
+        '.users-list__table-exchangerate'
+      );
+      const tableCashLimit = userTableRowElem.querySelector(
+        '.users-list__table-cashlimit'
+      );
+      const tableBadgesList = userTableRowElem.querySelector(
+        '.users-list__badges-list'
+      );
 
       tableBadgesList.innerHTML = '';
       if (element.paymentMethods) {
@@ -114,6 +137,60 @@ const renderContractors = (listContractors) => {
     });
   }
 };
-//renderContractors(cntr);
+const setTextContentTag = (tag, text) => {
+  const data = tag.querySelector('.user-card__cash-data');
+  data.textContent(text);
+};
+const renderPopupContractors = (listContractors) => {
+  if (listContractors.length === 0) {
+    ClearPopup();
+  } else {
+    listContractors.forEach((element) => {
+      const popupElement = baloonTemplate.cloneNode(true);
+      //const userPopupFragment = document.createDocumentFragment();
 
-export { renderContractors, ClearList };
+      const popupUser = popupElement.querySelector('.user-card__user-name');
+      const popupUserName = popupUser.querySelector('span');
+      const popupUserStar = popupUser.querySelector('svg');
+      //TODO  DElete loyer pins
+
+      popupUserName.textContent = element.userName;
+      if (!element.isVerified) {
+        popupUserStar.remove();
+      }
+
+      const popupCashList = popupElement.querySelectorAll(
+        '.user-card__cash-item'
+      );
+      setTextContentTag(
+        popupCashList[0].textContent,
+        element.balance['currency']
+      );
+      setTextContentTag(
+        popupCashList[0].textContent,
+        `${element.exchangeRate} ₽`
+      );
+      setTextContentTag(popupCashList[0].textContent, getLimit(element));
+
+      const popupBadgesList = popupElement.querySelector(
+        '.user-card__badges-list'
+      );
+
+      if (element.paymentMethods) {
+        for (let i = 0; i < element.paymentMethods.length; i++) {
+          const newLi = document.createElement('li');
+          newLi.classList.add('users-list__badges-item');
+          newLi.classList.add('badge');
+          newLi.textContent = element.paymentMethods[i].provider;
+          popupBadgesList.appendChild(newLi);
+        }
+      }
+
+      //userPopupFragment.appendChild(popupElement);
+      //tableBody.appendChild(userTableRowFragment);
+      return popupElement;
+    });
+  }
+};
+
+export { renderContractors, ClearList, renderPopupContractors, ClearPopup };

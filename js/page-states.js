@@ -3,7 +3,7 @@ const modePageToString = {
   Cписок: 'list',
   Карта: 'map',
   Купить: 'buyer',
-  Продать: 'seller'
+  Продать: 'seller',
 };
 const tabListMap = document.querySelector('.tabs--toggle-list-map');
 const tabListMapBtns = tabListMap.querySelectorAll('.btn');
@@ -12,7 +12,7 @@ const tabBuySellBtns = tabBuySell.querySelectorAll('.btn');
 
 const getMode = (element) => {
   if (checkContainsClass(element, 'is-active')) {
-    return element.textContent;
+    return element.textContent.trim();
   }
 };
 
