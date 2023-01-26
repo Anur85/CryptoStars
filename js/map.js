@@ -6,21 +6,20 @@ const map = L.map('map');
 const pinVerifiedIcon = L.icon({
   iconUrl: 'img/pin-verified.svg',
   iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconAnchor: [26, 52]
 });
 
 const pinIcon = L.icon({
   iconUrl: './img/pin.svg',
   iconSize: [40, 40],
-  iconAnchor: [20, 40],
+  iconAnchor: [20, 40]
 });
 
-const initMap = (/*coordinate*/) => {
+const initMap = (coordinate) => {
   mapContainer.style.display = null;
-  map.setView(/*coordinate, 13*/);
+  map.setView(coordinate, 10);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:
-      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(map);
 };
 
@@ -28,10 +27,15 @@ const markerGroup = L.layerGroup().addTo(map);
 
 const createAdPinMarker = (locations) => {
   locations.forEach((location) => {
-    const marker = L.marker(location, {
-      icon: location.isVerified ? pinIcon : pinVerifiedIcon,
-    });
-    marker.addTo(markerGroup).bindPopup(renderPopupContractors(location));
+    // eslint-disable-next-line no-console
+    console.log('location.coords>>', location.coords);
+
+    if (location.coords) {
+      const marker = L.marker(location.coords, {
+        icon: location.isVerified ? pinIcon : pinVerifiedIcon
+      });
+      marker.addTo(markerGroup).bindPopup(renderPopupContractors(location));
+    }
   });
 };
 

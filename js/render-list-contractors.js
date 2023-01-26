@@ -1,11 +1,7 @@
-const userTableRowTempldate = document
-  .querySelector('#user-table-row__template')
-  .content.querySelector('.users-list__table-row');
+const userTableRowTempldate = document.querySelector('#user-table-row__template').content.querySelector('.users-list__table-row');
 const tableBody = document.querySelector('.users-list__table-body');
 
-const baloonTemplate = document
-  .querySelector('#map-baloon__template')
-  .content.querySelector('.user-card');
+const baloonTemplate = document.querySelector('#map-baloon__template').content.querySelector('.user-card');
 //const mapContainer = document.querySelector('.container--map');
 
 // const cntr = [
@@ -94,24 +90,14 @@ const renderContractors = (listContractors) => {
       const userTableRowFragment = document.createDocumentFragment();
       const userTableRowElem = userTableRowTempldate.cloneNode(true);
 
-      const tableUser = userTableRowElem.querySelector(
-        '.users-list__table-name'
-      );
+      const tableUser = userTableRowElem.querySelector('.users-list__table-name');
       const tableUserName = tableUser.querySelector('span');
       const tableUserStar = tableUser.querySelector('svg');
 
-      const tableCurrency = userTableRowElem.querySelector(
-        '.users-list__table-currency'
-      );
-      const tableExchangeRate = userTableRowElem.querySelector(
-        '.users-list__table-exchangerate'
-      );
-      const tableCashLimit = userTableRowElem.querySelector(
-        '.users-list__table-cashlimit'
-      );
-      const tableBadgesList = userTableRowElem.querySelector(
-        '.users-list__badges-list'
-      );
+      const tableCurrency = userTableRowElem.querySelector('.users-list__table-currency');
+      const tableExchangeRate = userTableRowElem.querySelector('.users-list__table-exchangerate');
+      const tableCashLimit = userTableRowElem.querySelector('.users-list__table-cashlimit');
+      const tableBadgesList = userTableRowElem.querySelector('.users-list__badges-list');
 
       tableBadgesList.innerHTML = '';
       if (element.paymentMethods) {
@@ -159,22 +145,12 @@ const renderPopupContractors = (listContractors) => {
         popupUserStar.remove();
       }
 
-      const popupCashList = popupElement.querySelectorAll(
-        '.user-card__cash-item'
-      );
-      setTextContentTag(
-        popupCashList[0].textContent,
-        element.balance['currency']
-      );
-      setTextContentTag(
-        popupCashList[0].textContent,
-        `${element.exchangeRate} ₽`
-      );
+      const popupCashList = popupElement.querySelectorAll('.user-card__cash-item');
+      setTextContentTag(popupCashList[0].textContent, element.balance['currency']);
+      setTextContentTag(popupCashList[0].textContent, `${element.exchangeRate} ₽`);
       setTextContentTag(popupCashList[0].textContent, getLimit(element));
 
-      const popupBadgesList = popupElement.querySelector(
-        '.user-card__badges-list'
-      );
+      const popupBadgesList = popupElement.querySelector('.user-card__badges-list');
 
       if (element.paymentMethods) {
         for (let i = 0; i < element.paymentMethods.length; i++) {
