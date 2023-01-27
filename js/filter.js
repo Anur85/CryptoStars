@@ -21,8 +21,6 @@ const isSellerMode = () => {
 const filterByVerified = (contractors) => {
   const filteredOffers = [];
   for (const contractor of contractors) {
-    // eslint-disable-next-line no-console
-    console.log('isSellerMode()>>>', isSellerMode());
     if (!isVerifiedCustom()) {
       if (contractor.status === isSellerMode()) {
         filteredOffers.push(contractor);
@@ -33,35 +31,13 @@ const filterByVerified = (contractors) => {
       }
     }
   }
-  // eslint-disable-next-line no-console
-  //console.log('filteredOffers>>', filteredOffers);
-  //if (filteredOffers.length < 0) {
 
   if (getListMapMode() === 'listMode') {
-    // eslint-disable-next-line no-console
-    console.log('listMode>>', getListMapMode());
     renderContractors(filteredOffers);
   } else {
     initMap(INIT_COORDS);
     setPins(filteredOffers);
   }
-
-  //}
-
-  //initMap(INIT_COORDS);
-  //setPins(filteredOffers);
-
-  //TODO загрузку карты продумать наверное здесь
 };
 
-//const sortData = (AllData) => {}
-
-// eslint-disable-next-line no-console
-//console.log(getListMapMode());
-
-// eslint-disable-next-line no-console
-//console.log(getBuySellMode());
-
-// eslint-disable-next-line no-console
-//console.log(isVerifiedCustom());
 export { filterByVerified };

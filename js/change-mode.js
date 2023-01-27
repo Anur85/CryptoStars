@@ -34,14 +34,11 @@ const onCheckboxCustomClick = () => {
   } else {
     toMapMode();
     loadListConractors();
-    //TODO загрузка карты
   }
 };
 const onListMapClick = () => {
   toggleButtons(tabListMapBtns); // change active
-  // Надо продумать какое событие вызвать.  -- Проверка карта = загрузка карты с пинами
-  // Список = загрузка списка
-  //loadConractors();
+
   if (getListMapMode() === 'MapMode') {
     toMapMode();
     loadListConractors();
@@ -49,35 +46,16 @@ const onListMapClick = () => {
     toListMode();
     loadListConractors();
   }
-
-  // eslint-disable-next-line no-console
-  console.log(getListMapMode());
 };
 
-const onBuySellClick = (evt) => {
-  // eslint-disable-next-line no-console
-  console.log(evt);
+const onBuySellClick = () => {
   toggleButtons(tabBuySellBtns);
   loadListConractors();
 };
 
 const initChangeMode = () => {
-  tabListMapBtns.forEach((btn) =>
-    btn.addEventListener(
-      'click',
-      onListMapClick
-      // eslint-disable-next-line no-console
-      //console.log('12')
-    )
-  );
-  tabBuySellBtns.forEach((btn) =>
-    btn.addEventListener(
-      'click',
-      onBuySellClick
-      // eslint-disable-next-line no-console
-      // console.log('13')
-    )
-  );
+  tabListMapBtns.forEach((btn) => btn.addEventListener('click', onListMapClick));
+  tabBuySellBtns.forEach((btn) => btn.addEventListener('click', onBuySellClick));
   checkboxCustom.addEventListener('change', onCheckboxCustomClick);
 };
 

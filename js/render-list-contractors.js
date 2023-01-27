@@ -136,7 +136,6 @@ const setTextContentTag = (tag, text) => {
 const renderPopupContractors = (listContractors) => {
   if (listContractors.coords) {
     const popupElement = baloonTemplate.cloneNode(true);
-    //const userPopupFragment = document.createDocumentFragment();
 
     const popupUser = popupElement.querySelector('.user-card__user-name');
     const popupUserName = popupUser.querySelector('span');

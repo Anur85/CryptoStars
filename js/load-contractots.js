@@ -7,6 +7,6 @@ const CONTRACTORS_URL = 'https://cryptostar.grading.pages.academy/contractors';
 const loadListConractors = () => {
   getData(CONTRACTORS_URL, filterByVerified, ClearList);
 };
-loadListConractors();
+//loadListConractors();
 
 export { loadListConractors };
