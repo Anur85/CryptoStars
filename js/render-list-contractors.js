@@ -1,11 +1,12 @@
 import { markerGroup } from './map.js';
 import { getListMapMode } from './page-states.js';
+import { testFunc } from './modal.js';
+
 const userTableRowTempldate = document.querySelector('#user-table-row__template').content.querySelector('.users-list__table-row');
 const tableBody = document.querySelector('.users-list__table-body');
 
 const baloonTemplate = document.querySelector('#map-baloon__template').content.querySelector('.user-card');
 const noResultSearch = document.querySelector('.container--lightbackground');
-//const mapContainer = document.querySelector('.container--map');
 
 // const cntr = [
 //   {
@@ -82,11 +83,6 @@ const ClearList = () => {
   }
 };
 
-// const ClearPopup = () => {
-//   //TODO  DElete loyer pins
-//   //mapContainer.style.display = null;
-// };
-
 const renderContractors = (listContractors) => {
   tableBody.innerHTML = '';
   if (listContractors.length === 0) {
@@ -127,6 +123,8 @@ const renderContractors = (listContractors) => {
       userTableRowFragment.appendChild(userTableRowElem);
       tableBody.appendChild(userTableRowFragment);
     });
+    testFunc();
+    //TODO возможно здесь поиск кнопок и добавление слушателя на них
   }
 };
 const setTextContentTag = (tag, text) => {
@@ -140,7 +138,6 @@ const renderPopupContractors = (listContractors) => {
     const popupUser = popupElement.querySelector('.user-card__user-name');
     const popupUserName = popupUser.querySelector('span');
     const popupUserStar = popupUser.querySelector('svg');
-    //TODO  DElete loyer pins
 
     popupUserName.textContent = listContractors.userName;
     if (!listContractors.isVerified) {
@@ -163,9 +160,6 @@ const renderPopupContractors = (listContractors) => {
         popupBadgesList.appendChild(newLi);
       }
     }
-
-    //userPopupFragment.appendChild(popupElement);
-    //tableBody.appendChild(userTableRowFragment);
     return popupElement;
   }
 };

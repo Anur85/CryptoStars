@@ -1,6 +1,5 @@
 import { renderPopupContractors } from './render-list-contractors.js';
 
-// const mapContainer = document.querySelector('.container--map');
 const map = L.map('map');
 
 const pinVerifiedIcon = L.icon({
@@ -16,9 +15,6 @@ const pinIcon = L.icon({
 });
 
 const initMap = (coordinate) => {
-  // mapContainer.style.display = null;
-  // eslint-disable-next-line no-console
-  console.log('coordinate>>', coordinate);
   map.setView(coordinate, 10);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -29,9 +25,6 @@ const markerGroup = L.layerGroup().addTo(map);
 
 const createAdPinMarker = (locations) => {
   locations.forEach((location) => {
-    // eslint-disable-next-line no-console
-    // console.log('location.coords>>', location.coords);
-
     if (location.coords) {
       const marker = L.marker(location.coords, {
         icon: location.isVerified ? pinVerifiedIcon : pinIcon
@@ -39,6 +32,8 @@ const createAdPinMarker = (locations) => {
       marker.addTo(markerGroup).bindPopup(renderPopupContractors(location));
     }
   });
+
+  //TODO возможно здесь поиск кнопок и добавление слушателя на них
 };
 
 const setPins = (locations) => {

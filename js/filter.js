@@ -34,8 +34,10 @@ const filterByVerified = (contractors) => {
 
   if (getListMapMode() === 'listMode') {
     renderContractors(filteredOffers);
+    //TODO exit render table data
   } else {
     initMap(INIT_COORDS);
+    //TODO exit render pins in map
     setPins(filteredOffers);
   }
 };

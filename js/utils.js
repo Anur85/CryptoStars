@@ -16,4 +16,13 @@ const debounce = (callback, timeoutDelay) => {
     // пока действие совершается чаще, чем переданная задержка timeoutDelay
   };
 };
-export { checkContainsClass, debounce };
+
+const getBlockModifier = (block, modifier) => {
+  if (block.classList.length) {
+    const className = block.classList[0];
+    return `${className}--${modifier}`;
+  }
+};
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
+export { checkContainsClass, debounce, getBlockModifier, isEscapeKey };
