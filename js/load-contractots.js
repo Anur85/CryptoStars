@@ -4,9 +4,9 @@ import { ClearList } from './render-list-contractors.js';
 
 const CONTRACTORS_URL = 'https://cryptostar.grading.pages.academy/contractors';
 
-const loadConractors = () => {
+const loadListConractors = () => {
   getData(CONTRACTORS_URL, filterByVerified, ClearList);
 };
-loadConractors();
+loadListConractors();
 
-export { loadConractors };
+export { loadListConractors };

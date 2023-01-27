@@ -1,7 +1,9 @@
 const profile = document.querySelector('.user-profile');
 const userCryptoBalance = profile.querySelector('#user-crypto-balance');
 const userFiatBalance = profile.querySelector('#user-fiat-balance');
-const userName = profile.querySelector('.user-profile__name').querySelector('span');
+const userName = profile
+  .querySelector('.user-profile__name')
+  .querySelector('span');
 
 const getBalanceFromObject = (balances, currency) => {
   let amount = 0;
@@ -22,7 +24,7 @@ const renderUser = (user) => {
 };
 
 const hiddenUser = () => {
-  profile.classList.add('visually-hidden');
+  profile.style.display = 'none';
 };
 
 export { renderUser, hiddenUser };

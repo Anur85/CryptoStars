@@ -1,7 +1,10 @@
+import { markerGroup } from './map.js';
+import { getListMapMode } from './page-states.js';
 const userTableRowTempldate = document.querySelector('#user-table-row__template').content.querySelector('.users-list__table-row');
 const tableBody = document.querySelector('.users-list__table-body');
 
 const baloonTemplate = document.querySelector('#map-baloon__template').content.querySelector('.user-card');
+const noResultSearch = document.querySelector('.container--lightbackground');
 //const mapContainer = document.querySelector('.container--map');
 
 // const cntr = [
@@ -71,15 +74,18 @@ const getLimit = (user) => {
 };
 
 const ClearList = () => {
-  const noResultSearch = document.querySelector('.container--lightbackground');
-  tableBody.innerHTML = '';
-  noResultSearch.style.display = null;
+  if (getListMapMode() === 'listMode') {
+    tableBody.innerHTML = '';
+    noResultSearch.style.display = null;
+  } else {
+    markerGroup.clearLayers();
+  }
 };
 
-const ClearPopup = () => {
-  //TODO  DElete loyer pins
-  //mapContainer.style.display = null;
-};
+// const ClearPopup = () => {
+//   //TODO  DElete loyer pins
+//   //mapContainer.style.display = null;
+// };
 
 const renderContractors = (listContractors) => {
   tableBody.innerHTML = '';
@@ -125,48 +131,44 @@ const renderContractors = (listContractors) => {
 };
 const setTextContentTag = (tag, text) => {
   const data = tag.querySelector('.user-card__cash-data');
-  data.textContent(text);
+  data.textContent = text;
 };
 const renderPopupContractors = (listContractors) => {
-  if (listContractors.length === 0) {
-    ClearPopup();
-  } else {
-    listContractors.forEach((element) => {
-      const popupElement = baloonTemplate.cloneNode(true);
-      //const userPopupFragment = document.createDocumentFragment();
+  if (listContractors.coords) {
+    const popupElement = baloonTemplate.cloneNode(true);
+    //const userPopupFragment = document.createDocumentFragment();
 
-      const popupUser = popupElement.querySelector('.user-card__user-name');
-      const popupUserName = popupUser.querySelector('span');
-      const popupUserStar = popupUser.querySelector('svg');
-      //TODO  DElete loyer pins
+    const popupUser = popupElement.querySelector('.user-card__user-name');
+    const popupUserName = popupUser.querySelector('span');
+    const popupUserStar = popupUser.querySelector('svg');
+    //TODO  DElete loyer pins
 
-      popupUserName.textContent = element.userName;
-      if (!element.isVerified) {
-        popupUserStar.remove();
+    popupUserName.textContent = listContractors.userName;
+    if (!listContractors.isVerified) {
+      popupUserStar.remove();
+    }
+
+    const popupCashList = popupElement.querySelectorAll('.user-card__cash-item');
+    setTextContentTag(popupCashList[0], listContractors.balance['currency']);
+    setTextContentTag(popupCashList[1], `${listContractors.exchangeRate} ₽`);
+    setTextContentTag(popupCashList[2], getLimit(listContractors));
+
+    const popupBadgesList = popupElement.querySelector('.user-card__badges-list');
+
+    if (listContractors.paymentMethods) {
+      for (let i = 0; i < listContractors.paymentMethods.length; i++) {
+        const newLi = document.createElement('li');
+        newLi.classList.add('users-list__badges-item');
+        newLi.classList.add('badge');
+        newLi.textContent = listContractors.paymentMethods[i].provider;
+        popupBadgesList.appendChild(newLi);
       }
+    }
 
-      const popupCashList = popupElement.querySelectorAll('.user-card__cash-item');
-      setTextContentTag(popupCashList[0].textContent, element.balance['currency']);
-      setTextContentTag(popupCashList[0].textContent, `${element.exchangeRate} ₽`);
-      setTextContentTag(popupCashList[0].textContent, getLimit(element));
-
-      const popupBadgesList = popupElement.querySelector('.user-card__badges-list');
-
-      if (element.paymentMethods) {
-        for (let i = 0; i < element.paymentMethods.length; i++) {
-          const newLi = document.createElement('li');
-          newLi.classList.add('users-list__badges-item');
-          newLi.classList.add('badge');
-          newLi.textContent = element.paymentMethods[i].provider;
-          popupBadgesList.appendChild(newLi);
-        }
-      }
-
-      //userPopupFragment.appendChild(popupElement);
-      //tableBody.appendChild(userTableRowFragment);
-      return popupElement;
-    });
+    //userPopupFragment.appendChild(popupElement);
+    //tableBody.appendChild(userTableRowFragment);
+    return popupElement;
   }
 };
 
-export { renderContractors, ClearList, renderPopupContractors, ClearPopup };
+export { renderContractors, ClearList, renderPopupContractors };

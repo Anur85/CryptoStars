@@ -1,5 +1,6 @@
 import { getListMapMode, getBuySellMode } from './page-states.js';
-//import { renderContractors } from './render-list-contractors.js';
+import { renderContractors } from './render-list-contractors.js';
+
 import { setPins, initMap } from './map.js';
 
 const INIT_COORDS = {
@@ -21,23 +22,7 @@ const filterByVerified = (contractors) => {
   const filteredOffers = [];
   for (const contractor of contractors) {
     // eslint-disable-next-line no-console
-    // console.log('=====================================');
-    // eslint-disable-next-line no-console
-    // console.log('<<<<<<contractor>>>>>>>>', contractor);
-    // eslint-disable-next-line no-console
-    // console.log('contractor.isVerified>>', contractor.isVerified);
-    // eslint-disable-next-line no-console
-    // console.log('isVerifiedCustom>>', isVerifiedCustom());
-    // eslint-disable-next-line no-console
-    // console.log('contractor.status>>', contractor.status);
-    // eslint-disable-next-line no-console
-    // console.log('iisSellerMode>>', isSellerMode());
-    // eslint-disable-next-line no-console
-    // console.log('IF>>', contractor.isVerified === isVerifiedCustom() && contractor.status === isSellerMode());
-
-    // eslint-disable-next-line no-console
-    //console.log('*************************************');
-
+    console.log('isSellerMode()>>>', isSellerMode());
     if (!isVerifiedCustom()) {
       if (contractor.status === isSellerMode()) {
         filteredOffers.push(contractor);
@@ -47,24 +32,24 @@ const filterByVerified = (contractors) => {
         filteredOffers.push(contractor);
       }
     }
-
-    // if (
-    //   if (isVerifiedCustom()) {
-    //   contractor.isVerified === isVerifiedCustom()
-    // } &&
-    //   contractor.status === isSellerMode()
-    // ) {
-    //   filteredOffers.push(contractor);
-    // }
   }
   // eslint-disable-next-line no-console
   //console.log('filteredOffers>>', filteredOffers);
   //if (filteredOffers.length < 0) {
-  //renderContractors(filteredOffers);
+
+  if (getListMapMode() === 'listMode') {
+    // eslint-disable-next-line no-console
+    console.log('listMode>>', getListMapMode());
+    renderContractors(filteredOffers);
+  } else {
+    initMap(INIT_COORDS);
+    setPins(filteredOffers);
+  }
+
   //}
 
-  initMap(INIT_COORDS);
-  setPins(filteredOffers);
+  //initMap(INIT_COORDS);
+  //setPins(filteredOffers);
 
   //TODO загрузку карты продумать наверное здесь
 };
