@@ -1,4 +1,6 @@
 import { renderPopupContractors } from './render-list-contractors.js';
+import { checkContainsClass } from './utils.js';
+import { renderMapModalForm, getModalMode } from './modal.js';
 
 const map = L.map('map');
 
@@ -23,6 +25,17 @@ const initMap = (coordinate) => {
 
 const markerGroup = L.layerGroup().addTo(map);
 
+const onPinClick = (evt) => {
+  const popupForm = document.querySelector(`.modal--${getModalMode()}`);
+  // eslint-disable-next-line no-console
+  // console.log('<<<<<<<Buttons>>*', evt.target);
+  if (checkContainsClass(evt.target, 'btn--green')) {
+    // eslint-disable-next-line no-console
+    // console.log('evt.target.parentNode>>*', evt.target.parentNode);
+    renderMapModalForm(popupForm, evt.target.parentNode);
+  }
+};
+
 const createAdPinMarker = (locations) => {
   locations.forEach((location) => {
     if (location.coords) {
@@ -32,7 +45,9 @@ const createAdPinMarker = (locations) => {
       marker.addTo(markerGroup).bindPopup(renderPopupContractors(location));
     }
   });
-
+  const mapDiv = document.querySelector('.map');
+  mapDiv.addEventListener('click', onPinClick);
+  //onPinClick();
   //TODO возможно здесь поиск кнопок и добавление слушателя на них
 };
 

@@ -1,66 +1,14 @@
 import { markerGroup } from './map.js';
 import { getListMapMode } from './page-states.js';
-import { testFunc } from './modal.js';
+import { showEvent } from './modal.js';
 
 const userTableRowTempldate = document.querySelector('#user-table-row__template').content.querySelector('.users-list__table-row');
 const tableBody = document.querySelector('.users-list__table-body');
+// tableBody.addEventListener('click', onTableClick);
+//const table = document.querySelector('.users-list__table');
 
 const baloonTemplate = document.querySelector('#map-baloon__template').content.querySelector('.user-card');
 const noResultSearch = document.querySelector('.container--lightbackground');
-
-// const cntr = [
-//   {
-//     id: 'gZvJzs2ZSkDC52OHP6tWl',
-//     balance: {
-//       currency: 'KEKS',
-//       amount: 60.26,
-//     },
-//     exchangeRate: 6261.62,
-//     isVerified: true,
-//     status: 'seller',
-//     userName: 'Борис',
-//     paymentMethods: [
-//       {
-//         currency: 'RUB',
-//         provider: 'QIWI',
-//         accountNumber: '0000 0000 0000 1432',
-//       },
-//       {
-//         currency: 'RUB',
-//         provider: 'Sberbank',
-//         accountNumber: '0000 0000 0000 9410',
-//       },
-//     ],
-//     minAmount: 3,
-//   },
-//   {
-//     id: 'WwYf30_THgxC5qatpLD4k',
-//     balance: {
-//       currency: 'KEKS',
-//       amount: 66.87,
-//     },
-//     exchangeRate: 2997.45,
-//     isVerified: false,
-//     status: 'buyer',
-//     userName: 'Кирилл',
-//     paymentMethods: [
-//       {
-//         currency: 'RUB',
-//         provider: 'Cash in person',
-//       },
-//       {
-//         currency: 'RUB',
-//         provider: 'QIWI',
-//         accountNumber: '0000 0000 0000 2058',
-//       },
-//     ],
-//     coords: {
-//       lat: 59.53565,
-//       lng: 29.6658,
-//     },
-//     minAmount: 1,
-//   },
-// ];
 
 const getLimit = (user) => {
   const min = user.minAmount;
@@ -83,8 +31,26 @@ const ClearList = () => {
   }
 };
 
+const onTableClick = () => {
+  // const tableBody = document.querySelector('.users-list__table-body');
+  //  const tableRows = tableBody.rows;
+  // eslint-disable-next-line no-console
+  // console.log('tableBody>>', tableBody);
+  // eslint-disable-next-line no-console
+  // console.log('Array.from(tableBody.rows)>>', Array.from(tableBody.rows));
+  const tableRows = Array.from(tableBody.rows);
+  for (const tableRow of tableRows) {
+    tableRow.addEventListener('click', showEvent);
+  }
+};
+const setTextContentTag = (tag, text) => {
+  const data = tag.querySelector('.user-card__cash-data');
+  data.textContent = text;
+};
+
 const renderContractors = (listContractors) => {
   tableBody.innerHTML = '';
+
   if (listContractors.length === 0) {
     ClearList();
   } else {
@@ -123,14 +89,15 @@ const renderContractors = (listContractors) => {
       userTableRowFragment.appendChild(userTableRowElem);
       tableBody.appendChild(userTableRowFragment);
     });
-    testFunc();
+    onTableClick();
+
+    // testFunc();
+    //const tableBody = document.querySelector('.users-list__table-body');
+
     //TODO возможно здесь поиск кнопок и добавление слушателя на них
   }
 };
-const setTextContentTag = (tag, text) => {
-  const data = tag.querySelector('.user-card__cash-data');
-  data.textContent = text;
-};
+
 const renderPopupContractors = (listContractors) => {
   if (listContractors.coords) {
     const popupElement = baloonTemplate.cloneNode(true);
@@ -150,7 +117,6 @@ const renderPopupContractors = (listContractors) => {
     setTextContentTag(popupCashList[2], getLimit(listContractors));
 
     const popupBadgesList = popupElement.querySelector('.user-card__badges-list');
-
     if (listContractors.paymentMethods) {
       for (let i = 0; i < listContractors.paymentMethods.length; i++) {
         const newLi = document.createElement('li');
