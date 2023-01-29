@@ -59,6 +59,8 @@ const renderContractors = (listContractors) => {
       const tableCashLimit = userTableRowElem.querySelector('.users-list__table-cashlimit');
       const tableBadgesList = userTableRowElem.querySelector('.users-list__badges-list');
 
+      //TODO contractorId here????
+
       tableBadgesList.innerHTML = '';
       if (element.paymentMethods) {
         for (let i = 0; i < element.paymentMethods.length; i++) {

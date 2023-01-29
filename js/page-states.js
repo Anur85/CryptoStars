@@ -3,7 +3,7 @@ const modePageToString = {
   Cписок: 'list',
   Карта: 'map',
   Купить: 'buyer',
-  Продать: 'seller',
+  Продать: 'seller'
 };
 const tabListMap = document.querySelector('.tabs--toggle-list-map');
 const tabListMapBtns = tabListMap.querySelectorAll('.btn');
@@ -38,4 +38,12 @@ const getBuySellMode = () => {
     return 'SellerMode';
   }
 };
-export { getListMapMode, getBuySellMode };
+
+const getModalMode = () => {
+  if (getListMapMode() === 'MapMode' || getBuySellMode() === 'SellerMode') {
+    return 'sell';
+  } else {
+    return 'buy';
+  }
+};
+export { getListMapMode, getBuySellMode, getModalMode };

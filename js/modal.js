@@ -1,18 +1,12 @@
-import { getListMapMode, getBuySellMode } from './page-states.js';
+import { getListMapMode, getBuySellMode, getModalMode } from './page-states.js';
 import { checkContainsClass } from './utils.js';
 import { isEscapeKey } from './utils.js';
+import { showMessage } from './message.js';
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     modalClose();
-  }
-};
-const getModalMode = () => {
-  if (getListMapMode() === 'MapMode' || getBuySellMode() === 'SellerMode') {
-    return 'sell';
-  } else {
-    return 'buy';
   }
 };
 
@@ -21,6 +15,51 @@ const onChangeProvider = () => {
   const selectForm = modalForm.querySelector('.modal__select-wrapper').querySelector('select');
   const cardNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[1].querySelector('input');
   cardNumber.placeholder = selectForm.value;
+};
+
+const validateForm = (form) => {
+  // const formModal = document.querySelector(`.modal-${getModalMode()}`);
+  // eslint-disable-next-line no-console
+  console.log('formModal', form);
+  const pristine = new Pristine(form, {
+    classTo: `.modal-${getModalMode()}`,
+    errorClass: `.modal-${getModalMode()}--invalid`,
+    successClass: `.modal-${getModalMode()}--valid`,
+    errorTextParent: 'ad-form__element',
+    errorTextTag: 'span',
+    errorTextClass: 'text-help'
+  });
+
+  const inputs = form.querySelectorAll('.custom-input');
+
+  const payment = inputs[0].querySelector('input');
+  // eslint-disable-next-line no-console
+  console.log('payment', payment);
+  // eslint-disable-next-line no-console
+  console.log('payment.value', Number(payment.value));
+
+  // const validatePayment = () => payment.value > 0;
+  // pristine.addValidator(form, validatePayment);
+
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    // eslint-disable-next-line no-console
+    console.log('payment', payment);
+    // eslint-disable-next-line no-console
+    console.log('payment.value', Number(payment.value));
+    // pristine.validate(adFormPrice);
+    const isValid = pristine.validate(form);
+
+    if (isValid) {
+      // eslint-disable-next-line no-console
+      console.log('isValid');
+      showMessage(form, 'success');
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('!!!isValid');
+      showMessage(form, 'error');
+    }
+  });
 };
 
 const modalOpen = () => {
@@ -32,8 +71,9 @@ const modalOpen = () => {
   document.body.style.top = `-${window.scrollY}px`;
   const popupForm = document.querySelector(`.modal--${getModalMode()}`);
   popupForm.style.display = null;
-
-  popupForm.addEventListener('change', onChangeProvider);
+  validateForm(popupForm);
+  const selectForm = popupForm.querySelector('.modal__select-wrapper').querySelector('select');
+  selectForm.addEventListener('change', onChangeProvider);
 
   const closePopupBtn = document.querySelectorAll('.modal__close-btn');
   document.addEventListener('keydown', onDocumentKeydown);
@@ -71,14 +111,20 @@ const renderListModalForm = (form, element) => {
   const selectForm = modalForm.querySelector('.modal__select-wrapper').querySelector('select');
   const currentOptions = selectForm.options;
   currentOptions.length = 1;
+  let inputNumber = 0;
+  if (getBuySellMode() === 'BuyerMode') {
+    inputNumber = 1;
+  }
+  const walletNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[`${inputNumber}`].querySelector('input');
+
+  const userWallet = document.querySelector('#wallet');
 
   const tableUser = element.querySelector('.users-list__table-name');
   const tableUserName = tableUser.querySelector('span');
   const tableExchangeRate = element.querySelector('.users-list__table-exchangerate');
   const tableCashLimit = element.querySelector('.users-list__table-cashlimit');
   const tableBadgesList = element.querySelector('.users-list__badges-list').querySelectorAll('.users-list__badges-item');
-  // eslint-disable-next-line no-console
-  console.log('tableBadgesList', tableBadgesList);
+
   tableBadgesList.forEach((bag) => {
     const opt = document.createElement('option');
     // const span = document.createElement('span');
@@ -93,6 +139,7 @@ const renderListModalForm = (form, element) => {
   userName.textContent = tableUserName.textContent;
   exchangeRate.textContent = tableExchangeRate.textContent;
   cashLimit.textContent = tableCashLimit.textContent;
+  walletNumber.placeholder = userWallet.textContent;
 };
 
 const renderMapModalForm = (form, element) => {
@@ -103,10 +150,17 @@ const renderMapModalForm = (form, element) => {
   const exchangeRate = modalForm.querySelector('.transaction-info__item--exchangerate').querySelector('.transaction-info__data');
   const cashLimit = modalForm.querySelector('.transaction-info__item--cashlimit').querySelector('.transaction-info__data');
   const selectForm = modalForm.querySelector('.modal__select-wrapper').querySelector('select');
+  const currentOptions = selectForm.options;
+  currentOptions.length = 1;
+
+  const walletNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[0].querySelector('input');
+
+  const userWallet = document.querySelector('#wallet');
 
   const cardUserName = element.querySelector('.user-card__user-name').querySelector('span');
 
   const popupCashList = element.querySelectorAll('.user-card__cash-item');
+
   const exchangeRateCard = popupCashList[1].querySelector('.user-card__cash-data');
   const limitCard = popupCashList[2].querySelector('.user-card__cash-data');
 
@@ -125,12 +179,14 @@ const renderMapModalForm = (form, element) => {
   userName.textContent = cardUserName.textContent;
   exchangeRate.textContent = exchangeRateCard.textContent;
   cashLimit.textContent = limitCard.textContent;
+  walletNumber.placeholder = userWallet.textContent;
 };
 
 const showEvent = (evt) => {
   const popupForm = document.querySelector(`.modal--${getModalMode()}`);
   if (checkContainsClass(evt.target, 'btn--greenborder')) {
-    renderListModalForm(popupForm, evt.currentTarget);
+    renderListModalForm(popupForm, evt.currentTarget); //render modal
+    //TODO возможно здесь надо вызвать два разных render
   }
 };
 
