@@ -34,6 +34,7 @@ const onPinClick = (evt) => {
 
 const createAdPinMarker = (locations) => {
   locations.forEach((location) => {
+    //TODO Почему с сервера приходят некоторые seller без coords, поэтому ниже проверка(надо отписать при сдаче)
     if (location.coords) {
       const marker = L.marker(location.coords, {
         icon: location.isVerified ? pinVerifiedIcon : pinIcon

@@ -63,9 +63,15 @@ const renderContractors = (listContractors) => {
       if (element.paymentMethods) {
         for (let i = 0; i < element.paymentMethods.length; i++) {
           const newLi = document.createElement('li');
+          const accountNumberSpan = document.createElement('span');
           newLi.classList.add('users-list__badges-item');
+          accountNumberSpan.classList.add('account-number');
+          //TODO add account-number here
+          accountNumberSpan.style.display = 'none';
           newLi.classList.add('badge');
           newLi.textContent = element.paymentMethods[i].provider;
+          accountNumberSpan.textContent = element.paymentMethods[i].accountNumber;
+          newLi.appendChild(accountNumberSpan);
           tableBadgesList.appendChild(newLi);
         }
       }
@@ -104,12 +110,19 @@ const renderPopupContractors = (listContractors) => {
     setTextContentTag(popupCashList[2], getLimit(listContractors));
 
     const popupBadgesList = popupElement.querySelector('.user-card__badges-list');
+
     if (listContractors.paymentMethods) {
       for (let i = 0; i < listContractors.paymentMethods.length; i++) {
         const newLi = document.createElement('li');
+        const accountNumberSpan = document.createElement('span');
         newLi.classList.add('users-list__badges-item');
+        accountNumberSpan.classList.add('account-number');
+        //TODO add account-number here
+        accountNumberSpan.style.display = 'none';
         newLi.classList.add('badge');
         newLi.textContent = listContractors.paymentMethods[i].provider;
+        accountNumberSpan.textContent = listContractors.paymentMethods[i].accountNumber;
+        newLi.appendChild(accountNumberSpan);
         popupBadgesList.appendChild(newLi);
       }
     }

@@ -16,6 +16,13 @@ const getModalMode = () => {
   }
 };
 
+const onChangeProvider = () => {
+  const modalForm = document.querySelector(`.modal-${getModalMode()}`);
+  const selectForm = modalForm.querySelector('.modal__select-wrapper').querySelector('select');
+  const cardNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[1].querySelector('input');
+  cardNumber.placeholder = selectForm.value;
+};
+
 const modalOpen = () => {
   if (getListMapMode() === 'MapMode') {
     const mapContainer = document.querySelector('.container--map');
@@ -25,6 +32,9 @@ const modalOpen = () => {
   document.body.style.top = `-${window.scrollY}px`;
   const popupForm = document.querySelector(`.modal--${getModalMode()}`);
   popupForm.style.display = null;
+
+  popupForm.addEventListener('change', onChangeProvider);
+
   const closePopupBtn = document.querySelectorAll('.modal__close-btn');
   document.addEventListener('keydown', onDocumentKeydown);
   closePopupBtn.forEach((btn) => btn.addEventListener('click', modalClose));
@@ -59,15 +69,23 @@ const renderListModalForm = (form, element) => {
   const exchangeRate = modalForm.querySelector('.transaction-info__item--exchangerate').querySelector('.transaction-info__data');
   const cashLimit = modalForm.querySelector('.transaction-info__item--cashlimit').querySelector('.transaction-info__data');
   const selectForm = modalForm.querySelector('.modal__select-wrapper').querySelector('select');
+  const currentOptions = selectForm.options;
+  currentOptions.length = 1;
 
   const tableUser = element.querySelector('.users-list__table-name');
   const tableUserName = tableUser.querySelector('span');
   const tableExchangeRate = element.querySelector('.users-list__table-exchangerate');
   const tableCashLimit = element.querySelector('.users-list__table-cashlimit');
   const tableBadgesList = element.querySelector('.users-list__badges-list').querySelectorAll('.users-list__badges-item');
+  // eslint-disable-next-line no-console
+  console.log('tableBadgesList', tableBadgesList);
   tableBadgesList.forEach((bag) => {
     const opt = document.createElement('option');
-    opt.textContent = bag.textContent;
+    // const span = document.createElement('span');
+    //TODO
+    opt.textContent = bag.firstChild.textContent;
+    opt.value = bag.lastChild.textContent;
+
     selectForm.add(opt);
   });
 
@@ -95,7 +113,11 @@ const renderMapModalForm = (form, element) => {
   const cardBadgesList = element.querySelector('.user-card__badges-list').querySelectorAll('.users-list__badges-item');
   cardBadgesList.forEach((bag) => {
     const opt = document.createElement('option');
-    opt.textContent = bag.textContent;
+    // const span = document.createElement('span');
+    //TODO
+    opt.textContent = bag.firstChild.textContent;
+    opt.value = bag.lastChild.textContent;
+
     selectForm.add(opt);
   });
 

@@ -22,12 +22,25 @@ const filterByVerified = (contractors) => {
   const filteredOffers = [];
   for (const contractor of contractors) {
     if (!isVerifiedCustom()) {
-      if (contractor.status === isSellerMode()) {
-        filteredOffers.push(contractor);
+      if (getListMapMode() === 'listMode') {
+        if (contractor.status === isSellerMode()) {
+          filteredOffers.push(contractor);
+        }
+      } else {
+        if (contractor.status === 'seller') {
+          filteredOffers.push(contractor);
+        }
       }
     } else {
-      if (contractor.isVerified === true && contractor.status === isSellerMode()) {
-        filteredOffers.push(contractor);
+      if (getListMapMode() === 'listMode') {
+        // listMode
+        if (contractor.status === isSellerMode() && contractor.isVerified === true) {
+          filteredOffers.push(contractor);
+        }
+      } else {
+        if (contractor.status === 'seller' && contractor.isVerified === true) {
+          filteredOffers.push(contractor);
+        }
       }
     }
   }
