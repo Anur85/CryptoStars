@@ -524,7 +524,15 @@
                     <span class="custom-input__label">Оплата</span>
                     <span class="custom-input__unit">KEKS</span>
                     <button class="btn btn--textblue custom-input__btn" type="button">обменять все</button>
-                    <input type="number" value="" placeholder="0" />
+                    <input
+                      type="number"
+                      value=""
+                      placeholder="0"
+                      data-pristine-type="number"
+                      data-pristine-min="20"
+                      data-pristine-required
+                      data-pristine-required-message="Обязательное поле!!!"
+                    />
                   </label>
                   <div class="custom-input__error">Минимальная сумма — 9 999 999 ₽</div>
                 </div>

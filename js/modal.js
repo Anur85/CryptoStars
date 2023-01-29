@@ -18,15 +18,16 @@ const onChangeProvider = () => {
 };
 
 const validateForm = (form) => {
+  const submitForm = form.querySelector('form');
   // const formModal = document.querySelector(`.modal-${getModalMode()}`);
   // eslint-disable-next-line no-console
-  console.log('formModal', form);
-  const pristine = new Pristine(form, {
-    classTo: `.modal-${getModalMode()}`,
-    errorClass: `.modal-${getModalMode()}--invalid`,
-    successClass: `.modal-${getModalMode()}--valid`,
-    errorTextParent: 'ad-form__element',
-    errorTextTag: 'span',
+  console.log('submitForm', submitForm);
+  const pristine = new Pristine(submitForm, {
+    classTo: 'custom-input',
+    errorClass: 'modal__container--invalid',
+    successClass: 'modal__container--valid',
+    errorTextParent: 'custom-input',
+    errorTextTag: 'div',
     errorTextClass: 'text-help'
   });
 
@@ -36,19 +37,21 @@ const validateForm = (form) => {
   // eslint-disable-next-line no-console
   console.log('payment', payment);
   // eslint-disable-next-line no-console
-  console.log('payment.value', Number(payment.value));
+  // console.log('payment.value', Number(payment.value));
 
-  // const validatePayment = () => payment.value > 0;
-  // pristine.addValidator(form, validatePayment);
+  const validatePayment = () => Number(payment.value) > 0;
+  // eslint-disable-next-line no-console
+  console.log('validatePayment********', validatePayment());
+  pristine.addValidator(payment, validatePayment, 'payment');
 
-  form.addEventListener('submit', (evt) => {
+  submitForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
     // eslint-disable-next-line no-console
     console.log('payment', payment);
     // eslint-disable-next-line no-console
     console.log('payment.value', Number(payment.value));
     // pristine.validate(adFormPrice);
-    const isValid = pristine.validate(form);
+    const isValid = pristine.validate();
 
     if (isValid) {
       // eslint-disable-next-line no-console
