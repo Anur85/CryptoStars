@@ -6,8 +6,8 @@ const map = L.map('map');
 
 const pinVerifiedIcon = L.icon({
   iconUrl: 'img/pin-verified.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52]
+  iconSize: [40, 40],
+  iconAnchor: [20, 40]
 });
 
 const pinIcon = L.icon({
@@ -27,11 +27,7 @@ const markerGroup = L.layerGroup().addTo(map);
 
 const onPinClick = (evt) => {
   const popupForm = document.querySelector(`.modal--${getModalMode()}`);
-  // eslint-disable-next-line no-console
-  // console.log('<<<<<<<Buttons>>*', evt.target);
   if (checkContainsClass(evt.target, 'btn--green')) {
-    // eslint-disable-next-line no-console
-    // console.log('evt.target.parentNode>>*', evt.target.parentNode);
     renderMapModalForm(popupForm, evt.target.parentNode);
   }
 };
@@ -47,8 +43,6 @@ const createAdPinMarker = (locations) => {
   });
   const mapDiv = document.querySelector('.map');
   mapDiv.addEventListener('click', onPinClick);
-  //onPinClick();
-  //TODO возможно здесь поиск кнопок и добавление слушателя на них
 };
 
 const setPins = (locations) => {

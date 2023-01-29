@@ -4,8 +4,6 @@ import { showEvent } from './modal.js';
 
 const userTableRowTempldate = document.querySelector('#user-table-row__template').content.querySelector('.users-list__table-row');
 const tableBody = document.querySelector('.users-list__table-body');
-// tableBody.addEventListener('click', onTableClick);
-//const table = document.querySelector('.users-list__table');
 
 const baloonTemplate = document.querySelector('#map-baloon__template').content.querySelector('.user-card');
 const noResultSearch = document.querySelector('.container--lightbackground');
@@ -32,12 +30,6 @@ const ClearList = () => {
 };
 
 const onTableClick = () => {
-  // const tableBody = document.querySelector('.users-list__table-body');
-  //  const tableRows = tableBody.rows;
-  // eslint-disable-next-line no-console
-  // console.log('tableBody>>', tableBody);
-  // eslint-disable-next-line no-console
-  // console.log('Array.from(tableBody.rows)>>', Array.from(tableBody.rows));
   const tableRows = Array.from(tableBody.rows);
   for (const tableRow of tableRows) {
     tableRow.addEventListener('click', showEvent);
@@ -90,11 +82,6 @@ const renderContractors = (listContractors) => {
       tableBody.appendChild(userTableRowFragment);
     });
     onTableClick();
-
-    // testFunc();
-    //const tableBody = document.querySelector('.users-list__table-body');
-
-    //TODO возможно здесь поиск кнопок и добавление слушателя на них
   }
 };
 

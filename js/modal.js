@@ -2,8 +2,6 @@ import { getListMapMode, getBuySellMode } from './page-states.js';
 import { checkContainsClass } from './utils.js';
 import { isEscapeKey } from './utils.js';
 
-//  const tableRows = tableBody.rows;
-
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -56,11 +54,7 @@ function modalClose() {
 const renderListModalForm = (form, element) => {
   modalOpen();
   const modalForm = form.querySelector(`.modal-${getModalMode()}`);
-  // const userInfo = form.querySelector('.transaction-info');
-  // eslint-disable-next-line no-console
-  console.log('form>>>>>>>>>>>>>>>>>>>>', form);
-  // eslint-disable-next-line no-console
-  console.log('element>>>>>>>>>>>>>>>>>>>>', element);
+
   const userName = modalForm.querySelector('.transaction-info__data');
   const exchangeRate = modalForm.querySelector('.transaction-info__item--exchangerate').querySelector('.transaction-info__data');
   const cashLimit = modalForm.querySelector('.transaction-info__item--cashlimit').querySelector('.transaction-info__data');
@@ -81,18 +75,12 @@ const renderListModalForm = (form, element) => {
   userName.textContent = tableUserName.textContent;
   exchangeRate.textContent = tableExchangeRate.textContent;
   cashLimit.textContent = tableCashLimit.textContent;
-  // eslint-disable-next-line no-console
-  // console.log('tableUserName.textContent', tableUserName.textContent);
 };
 
 const renderMapModalForm = (form, element) => {
   modalOpen();
   const modalForm = form.querySelector(`.modal-${getModalMode()}`);
-  // const userInfo = form.querySelector('.transaction-info');
-  // eslint-disable-next-line no-console
-  console.log('form>>>>>>>>>>>>>>>>>>>>', form);
-  // eslint-disable-next-line no-console
-  console.log('element>>>>>>>>>>>>>>>>>>>>', element);
+
   const userName = modalForm.querySelector('.transaction-info__data');
   const exchangeRate = modalForm.querySelector('.transaction-info__item--exchangerate').querySelector('.transaction-info__data');
   const cashLimit = modalForm.querySelector('.transaction-info__item--cashlimit').querySelector('.transaction-info__data');
@@ -115,8 +103,6 @@ const renderMapModalForm = (form, element) => {
   userName.textContent = cardUserName.textContent;
   exchangeRate.textContent = exchangeRateCard.textContent;
   cashLimit.textContent = limitCard.textContent;
-  // eslint-disable-next-line no-console
-  // console.log('tableUserName.textContent', tableUserName.textContent);
 };
 
 const showEvent = (evt) => {
@@ -124,14 +110,6 @@ const showEvent = (evt) => {
   if (checkContainsClass(evt.target, 'btn--greenborder')) {
     renderListModalForm(popupForm, evt.currentTarget);
   }
-  // eslint-disable-next-line no-console
-  // console.log('evt>>>>>>>>>>>>>>>>>>>>', evt);
-  // eslint-disable-next-line no-console
-  // console.log('evt.target>>>>>>>>>>>>>>', evt.target);
-  // eslint-disable-next-line no-console
-  // console.log('checkContainsClass_item-btn', checkContainsClass(evt.currentTarget, 'btn--greenborder'));
-  // eslint-disable-next-line no-console
-  // console.log('evt.target.currentTarget>>', evt.currentTarget);
 };
 
 export { getModalMode, showEvent, renderListModalForm, renderMapModalForm };
