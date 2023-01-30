@@ -19,7 +19,7 @@ const onChangeProvider = () => {
 };
 
 const enrollmentBuyKeks = (payment, cource) => payment / cource;
-const enrollmentSellKeks = (payment, cource) => cource / payment;
+const enrollmentSellKeks = (payment, cource) => cource * payment;
 const paymentBuyKeks = (enrollment, cource) => enrollment * cource;
 const paymentSellKeks = (enrollment, cource) => enrollment / cource;
 
@@ -67,6 +67,8 @@ const modalOpen = () => {
   selectForm.addEventListener('change', onChangeProvider);
 
   const paymentInput = popupForm.querySelector('input[name="payment"]');
+  // eslint-disable-next-line no-console
+  console.log('paymentInput', paymentInput);
   const enrollmentInput = popupForm.querySelector('input[name="enrollment"]');
   paymentInput.addEventListener('input', onChangePayment);
   enrollmentInput.addEventListener('input', onChangeEnroll);
@@ -103,7 +105,6 @@ function modalClose() {
 const renderListModalForm = (form, element) => {
   modalOpen();
   const modalForm = form.querySelector(`.modal-${getModalMode()}`);
-
   const userName = modalForm.querySelector('.transaction-info__data');
   const exchangeRate = modalForm.querySelector('.transaction-info__item--exchangerate').querySelector('.transaction-info__data');
   const cashLimit = modalForm.querySelector('.transaction-info__item--cashlimit').querySelector('.transaction-info__data');
@@ -120,7 +121,7 @@ const renderListModalForm = (form, element) => {
     `${inputNumber}`
   ].querySelector('input');
 
-  const userWallet = document.querySelector('#wallet');
+  const userWallet = document.querySelector('#user-wallet');
 
   const tableUser = element.querySelector('.users-list__table-name');
   const tableUserName = tableUser.querySelector('span');
@@ -158,7 +159,7 @@ const renderMapModalForm = (form, element) => {
 
   const walletNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[0].querySelector('input');
 
-  const userWallet = document.querySelector('#wallet');
+  const userWallet = document.querySelector('#user-wallet');
 
   const cardUserName = element.querySelector('.user-card__user-name').querySelector('span');
 

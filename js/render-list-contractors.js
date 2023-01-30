@@ -57,9 +57,9 @@ const renderContractors = (listContractors) => {
       const tableCurrency = userTableRowElem.querySelector('.users-list__table-currency');
       const tableExchangeRate = userTableRowElem.querySelector('.users-list__table-exchangerate');
       const tableCashLimit = userTableRowElem.querySelector('.users-list__table-cashlimit');
-      const tableBadgesList = userTableRowElem.querySelector('.users-list__badges-list');
-
       //TODO contractorId here????
+      const tableContractorId = userTableRowElem.querySelector('.users-list__table-contractor-id');
+      const tableBadgesList = userTableRowElem.querySelector('.users-list__badges-list');
 
       tableBadgesList.innerHTML = '';
       if (element.paymentMethods) {
@@ -85,6 +85,7 @@ const renderContractors = (listContractors) => {
       tableCurrency.textContent = element.balance['currency'];
       tableExchangeRate.textContent = `${element.exchangeRate} ₽`;
       tableCashLimit.textContent = getLimit(element);
+      tableContractorId.textContent = element.id;
 
       userTableRowFragment.appendChild(userTableRowElem);
       tableBody.appendChild(userTableRowFragment);
@@ -111,6 +112,9 @@ const renderPopupContractors = (listContractors) => {
     setTextContentTag(popupCashList[1], `${listContractors.exchangeRate} ₽`);
     setTextContentTag(popupCashList[2], getLimit(listContractors));
 
+    const popupuserContractorId = popupElement.querySelector('#user-card__cash-contractor-id');
+    popupuserContractorId.textContent = listContractors.id;
+    //TODO веше добавил contractor-id
     const popupBadgesList = popupElement.querySelector('.user-card__badges-list');
 
     if (listContractors.paymentMethods) {
