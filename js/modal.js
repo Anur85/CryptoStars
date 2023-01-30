@@ -1,7 +1,8 @@
 import { getListMapMode, getBuySellMode, getModalMode } from './page-states.js';
 import { checkContainsClass } from './utils.js';
 import { isEscapeKey } from './utils.js';
-import { showMessage } from './message.js';
+// import { showMessage } from './message.js';
+import { validateForm } from './modal-validate.js';
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -17,52 +18,39 @@ const onChangeProvider = () => {
   cardNumber.placeholder = selectForm.value;
 };
 
-const validateForm = (form) => {
-  const submitForm = form.querySelector('form');
-  // const formModal = document.querySelector(`.modal-${getModalMode()}`);
-  // eslint-disable-next-line no-console
-  console.log('submitForm', submitForm);
-  const pristine = new Pristine(submitForm, {
-    classTo: 'custom-input',
-    errorClass: 'modal__container--invalid',
-    successClass: 'modal__container--valid',
-    errorTextParent: 'custom-input',
-    errorTextTag: 'div',
-    errorTextClass: 'text-help'
-  });
+const enrollmentBuyKeks = (payment, cource) => payment / cource;
+const enrollmentSellKeks = (payment, cource) => cource / payment;
+const paymentBuyKeks = (enrollment, cource) => enrollment * cource;
+const paymentSellKeks = (enrollment, cource) => enrollment / cource;
 
-  const inputs = form.querySelectorAll('.custom-input');
+const onChangePayment = () => {
+  const modalForm = document.querySelector(`.modal-${getModalMode()}`);
+  const exchangeRate = modalForm.querySelector('.transaction-info__item--exchangerate').querySelector('.transaction-info__data');
+  const exchangeRateData = Number(exchangeRate.textContent.split(' ')[0]);
 
-  const payment = inputs[0].querySelector('input');
-  // eslint-disable-next-line no-console
-  console.log('payment', payment);
-  // eslint-disable-next-line no-console
-  // console.log('payment.value', Number(payment.value));
+  const paymentInput = modalForm.querySelector('input[name="payment"]');
+  const enrollmentInput = modalForm.querySelector('input[name="enrollment"]');
 
-  const validatePayment = () => Number(payment.value) > 0;
-  // eslint-disable-next-line no-console
-  console.log('validatePayment********', validatePayment());
-  pristine.addValidator(payment, validatePayment, 'payment');
+  if (getModalMode() === 'sell') {
+    enrollmentInput.value = enrollmentSellKeks(paymentInput.value, exchangeRateData);
+  } else {
+    enrollmentInput.value = enrollmentBuyKeks(paymentInput.value, exchangeRateData);
+  }
+};
 
-  submitForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    // eslint-disable-next-line no-console
-    console.log('payment', payment);
-    // eslint-disable-next-line no-console
-    console.log('payment.value', Number(payment.value));
-    // pristine.validate(adFormPrice);
-    const isValid = pristine.validate();
+const onChangeEnroll = () => {
+  const modalForm = document.querySelector(`.modal-${getModalMode()}`);
+  const exchangeRate = modalForm.querySelector('.transaction-info__item--exchangerate').querySelector('.transaction-info__data');
+  const exchangeRateData = Number(exchangeRate.textContent.split(' ')[0]);
 
-    if (isValid) {
-      // eslint-disable-next-line no-console
-      console.log('isValid');
-      showMessage(form, 'success');
-    } else {
-      // eslint-disable-next-line no-console
-      console.log('!!!isValid');
-      showMessage(form, 'error');
-    }
-  });
+  const paymentInput = modalForm.querySelector('input[name="payment"]');
+  const enrollmentInput = modalForm.querySelector('input[name="enrollment"]');
+
+  if (getModalMode() === 'sell') {
+    paymentInput.value = paymentSellKeks(enrollmentInput.value, exchangeRateData);
+  } else {
+    paymentInput.value = paymentBuyKeks(enrollmentInput.value, exchangeRateData);
+  }
 };
 
 const modalOpen = () => {
@@ -78,6 +66,11 @@ const modalOpen = () => {
   const selectForm = popupForm.querySelector('.modal__select-wrapper').querySelector('select');
   selectForm.addEventListener('change', onChangeProvider);
 
+  const paymentInput = popupForm.querySelector('input[name="payment"]');
+  const enrollmentInput = popupForm.querySelector('input[name="enrollment"]');
+  paymentInput.addEventListener('input', onChangePayment);
+  enrollmentInput.addEventListener('input', onChangeEnroll);
+  //TODO обменять все
   const closePopupBtn = document.querySelectorAll('.modal__close-btn');
   document.addEventListener('keydown', onDocumentKeydown);
   closePopupBtn.forEach((btn) => btn.addEventListener('click', modalClose));
@@ -94,6 +87,9 @@ function modalClose() {
 
   const popupForm = document.querySelector(`.modal--${getModalMode()}`);
   popupForm.style.display = 'none';
+
+  const selectForm = popupForm.querySelector('.modal__select-wrapper').querySelector('select');
+  selectForm.removeEventListener('change', onChangeProvider);
 
   const closePopupBtn = document.querySelectorAll('.modal__close-btn');
   closePopupBtn.forEach((btn) => btn.removeEventListener('click', modalClose));
@@ -118,7 +114,11 @@ const renderListModalForm = (form, element) => {
   if (getBuySellMode() === 'BuyerMode') {
     inputNumber = 1;
   }
-  const walletNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[`${inputNumber}`].querySelector('input');
+
+  const walletNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[
+    // eslint-disable-next-line no-unexpected-multiline
+    `${inputNumber}`
+  ].querySelector('input');
 
   const userWallet = document.querySelector('#wallet');
 
