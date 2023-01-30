@@ -1,8 +1,8 @@
 import { getListMapMode, getBuySellMode, getModalMode } from './page-states.js';
 import { checkContainsClass } from './utils.js';
 import { isEscapeKey } from './utils.js';
-// import { showMessage } from './message.js';
 import { validateForm } from './modal-validate.js';
+import { renderSellModalForm } from './modal-sell.js';
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -52,6 +52,26 @@ const onChangeEnroll = () => {
     paymentInput.value = paymentBuyKeks(enrollmentInput.value, exchangeRateData);
   }
 };
+const onChangeAll = () => {
+  const modalForm = document.querySelector(`.modal-${getModalMode()}`);
+  // const exchangeRate = modalForm.querySelector('.transaction-info__item--exchangerate').querySelector('.transaction-info__data');
+  // const exchangeRateData = Number(exchangeRate.textContent.split(' ')[0]);
+
+  const paymentInput = modalForm.querySelector('input[name="payment"]');
+  const enrollmentInput = modalForm.querySelector('input[name="enrollment"]');
+
+  const cashLimit = modalForm.querySelector('.transaction-info__item--cashlimit').querySelector('.transaction-info__data');
+  // const minRub = cashLimit.textContent.trim().split('-')[0].split(' ')[0];
+  const maxRub = cashLimit.textContent.trim().split('-')[1].trim().split(' ')[0];
+
+  if (getModalMode() === 'sell') {
+    enrollmentInput.value = maxRub;
+    onChangeEnroll();
+  } else {
+    paymentInput.value = maxRub;
+    onChangePayment();
+  }
+};
 
 const modalOpen = () => {
   if (getListMapMode() === 'MapMode') {
@@ -67,12 +87,14 @@ const modalOpen = () => {
   selectForm.addEventListener('change', onChangeProvider);
 
   const paymentInput = popupForm.querySelector('input[name="payment"]');
-  // eslint-disable-next-line no-console
-  console.log('paymentInput', paymentInput);
   const enrollmentInput = popupForm.querySelector('input[name="enrollment"]');
   paymentInput.addEventListener('input', onChangePayment);
+
   enrollmentInput.addEventListener('input', onChangeEnroll);
-  //TODO обменять все
+
+  //обменять все
+  const changeAllBtn = popupForm.querySelector('.btn--textblue');
+  changeAllBtn.addEventListener('click', onChangeAll);
   const closePopupBtn = document.querySelectorAll('.modal__close-btn');
   document.addEventListener('keydown', onDocumentKeydown);
   closePopupBtn.forEach((btn) => btn.addEventListener('click', modalClose));
@@ -116,10 +138,7 @@ const renderListModalForm = (form, element) => {
     inputNumber = 1;
   }
 
-  const walletNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[
-    // eslint-disable-next-line no-unexpected-multiline
-    `${inputNumber}`
-  ].querySelector('input');
+  const walletNumber = modalForm.querySelectorAll('.modal__input-wrapper--decorated')[`${inputNumber}`].querySelector('input');
 
   const userWallet = document.querySelector('#user-wallet');
 
@@ -131,7 +150,6 @@ const renderListModalForm = (form, element) => {
 
   tableBadgesList.forEach((bag) => {
     const opt = document.createElement('option');
-    // const span = document.createElement('span');
     //TODO
     opt.textContent = bag.firstChild.textContent;
     opt.value = bag.lastChild.textContent;
@@ -169,9 +187,10 @@ const renderMapModalForm = (form, element) => {
   const limitCard = popupCashList[2].querySelector('.user-card__cash-data');
 
   const cardBadgesList = element.querySelector('.user-card__badges-list').querySelectorAll('.users-list__badges-item');
+
   cardBadgesList.forEach((bag) => {
     const opt = document.createElement('option');
-    // const span = document.createElement('span');
+
     //TODO
     opt.textContent = bag.firstChild.textContent;
     opt.value = bag.lastChild.textContent;
@@ -189,9 +208,13 @@ const renderMapModalForm = (form, element) => {
 const showEvent = (evt) => {
   const popupForm = document.querySelector(`.modal--${getModalMode()}`);
   if (checkContainsClass(evt.target, 'btn--greenborder')) {
+    if (getModalMode() === 'sell') {
+      renderSellModalForm(evt.currentTarget);
+    }
     renderListModalForm(popupForm, evt.currentTarget); //render modal
+
     //TODO возможно здесь надо вызвать два разных render
   }
 };
 
-export { getModalMode, showEvent, renderListModalForm, renderMapModalForm };
+export { getModalMode, showEvent, renderListModalForm, renderMapModalForm, modalClose };

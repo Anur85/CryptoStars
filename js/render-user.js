@@ -4,6 +4,7 @@ const userFiatBalance = profile.querySelector('#user-fiat-balance');
 const userWallet = document.querySelector('#user-wallet');
 
 const userPaymentMethods = document.querySelector('#user-paymentMethods');
+
 const userName = profile.querySelector('.user-profile__name').querySelector('span');
 
 const getBalanceFromObject = (balances, currency) => {
@@ -24,11 +25,14 @@ const renderUser = (user) => {
   userFiatBalance.textContent = getBalanceFromObject(user.balances, 'RUB');
   userWallet.textContent = user.wallet.address;
   user.paymentMethods.forEach((pay) => {
-    const opt = document.createElement('option');
+    const opt = document.createElement('li');
+    const accountNumberSpan = document.createElement('span');
     opt.textContent = pay.provider;
-    opt.value = pay.accountNumber;
+    accountNumberSpan.textContent = pay.accountNumber;
+    opt.appendChild(accountNumberSpan);
+    opt.classList.add('user-paymentMethods-item');
 
-    userPaymentMethods.add(opt);
+    userPaymentMethods.appendChild(opt);
   });
 };
 

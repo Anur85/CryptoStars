@@ -184,9 +184,7 @@
           <div class="user-profile">
             <ul class="user-profile__cash">
               <li id="user-wallet" class="visually-hidden"></li>
-              <li class="visually-hidden">
-                <select id="user-paymentMethods"></select>
-              </li>
+              <span class="visually-hidden" id="user-paymentMethods"> </span>
               <li class="user-profile__cash-item">
                 <svg width="20" height="20" aria-hidden="true">
                   <use xlink:href="#icon-kekscoin"></use>
@@ -353,7 +351,13 @@
         <div class="modal__content">
           <h2 class="modal__description">Покупка криптовалюты</h2>
           <!-- Не забудьте указать верный action-атрибут -->
-          <form class="modal-buy" method="post">
+          <form
+            class="modal-buy"
+            enctype="multipart/form-data"
+            action="https://cryptostar.grading.pages.academy/"
+            autocomplete="off"
+            method="post"
+          >
             <!--
                         Обратите внимание, что всем полям для отправки на сервер нужно указать
                         атрибуты name (их список вы найдёте в техзадании), а часть полей
@@ -391,6 +395,7 @@
                     <button class="btn btn--textblue custom-input__btn" type="button">обменять все</button>
                     <input
                       type="number"
+                      step="0.000000000001"
                       name="payment"
                       value=""
                       placeholder="0"
@@ -410,7 +415,7 @@
                 <div class="custom-input">
                   <label>
                     <span class="custom-input__label">Зачисление</span><span class="custom-input__unit">KEKS</span>
-                    <input type="number" name="enrollment" placeholder="0" />
+                    <input type="number" step="0.00000000001" name="enrollment" placeholder="0" />
                   </label>
                 </div>
               </div>
@@ -497,7 +502,13 @@
         <div class="modal__content">
           <h2 class="modal__description">Продажа криптовалюты</h2>
           <!-- Не забудьте указать верный action-атрибут -->
-          <form class="modal-sell" method="post">
+          <form
+            class="modal-sell"
+            enctype="multipart/form-data"
+            action="https://cryptostar.grading.pages.academy/"
+            autocomplete="off"
+            method="post"
+          >
             <!--
                         Обратите внимание, что всем полям для отправки на сервер нужно указать
                         атрибуты name (их список вы найдёте в техзадании), а часть полей
@@ -537,6 +548,7 @@
                     <button class="btn btn--textblue custom-input__btn" type="button">обменять все</button>
                     <input
                       type="number"
+                      step="0.000000000001"
                       name="payment"
                       value=""
                       placeholder="0"
@@ -557,7 +569,7 @@
                     ><span class="custom-input__label">Зачисление</span><span class="custom-input__unit">₽</span>
                     <!-- В figma на картинках нет столько кнопок "обменять все"  -->
                     <!-- <button class="btn btn--textblue custom-input__btn" type="button">обменять все</button> -->
-                    <input type="number" name="enrollment" value="" placeholder="0" />
+                    <input type="number" step="0.01" name="enrollment" value="" placeholder="0" />
                   </label>
                 </div>
               </div>
@@ -647,6 +659,7 @@
         <td class="users-list__table-cell users-list__table-exchangerate">9 999 999&nbsp;₽</td>
         <td class="users-list__table-cell users-list__table-cashlimit">9 999 999&nbsp;₽&nbsp;-&nbsp;9 999 999 000&nbsp;₽</td>
         <td class="users-list__table-cell users-list__table-contractor-id visually-hidden"></td>
+        <td class="users-list__table-cell users-list__table-wallet-address visually-hidden"></td>
         <td class="users-list__table-cell users-list__table-payments">
           <ul class="users-list__badges-list">
             <li class="users-list__badges-item badge">BitTransfer</li>

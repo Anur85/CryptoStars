@@ -57,8 +57,10 @@ const renderContractors = (listContractors) => {
       const tableCurrency = userTableRowElem.querySelector('.users-list__table-currency');
       const tableExchangeRate = userTableRowElem.querySelector('.users-list__table-exchangerate');
       const tableCashLimit = userTableRowElem.querySelector('.users-list__table-cashlimit');
-      //TODO contractorId here????
+      //TODO contractorId here
       const tableContractorId = userTableRowElem.querySelector('.users-list__table-contractor-id');
+      //TODO wallet-address here
+      const tableWalletAddress = userTableRowElem.querySelector('.users-list__table-wallet-address');
       const tableBadgesList = userTableRowElem.querySelector('.users-list__badges-list');
 
       tableBadgesList.innerHTML = '';
@@ -86,6 +88,9 @@ const renderContractors = (listContractors) => {
       tableExchangeRate.textContent = `${element.exchangeRate} ₽`;
       tableCashLimit.textContent = getLimit(element);
       tableContractorId.textContent = element.id;
+      if (element.wallet) {
+        tableWalletAddress.textContent = element.wallet.address;
+      }
 
       userTableRowFragment.appendChild(userTableRowElem);
       tableBody.appendChild(userTableRowFragment);
