@@ -68,7 +68,7 @@ const renderContractors = (listContractors) => {
           const accountNumberSpan = document.createElement('span');
           newLi.classList.add('users-list__badges-item');
           accountNumberSpan.classList.add('account-number');
-          //TODO add account-number here
+
           accountNumberSpan.style.display = 'none';
           newLi.classList.add('badge');
           newLi.textContent = element.paymentMethods[i].provider;

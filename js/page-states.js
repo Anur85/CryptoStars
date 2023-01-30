@@ -2,8 +2,8 @@ import { checkContainsClass } from './utils.js';
 const modePageToString = {
   Cписок: 'list',
   Карта: 'map',
-  Купить: 'buyer',
-  Продать: 'seller'
+  Купить: 'buy', //'seller',
+  Продать: 'sell' //'buyer'
 };
 const tabListMap = document.querySelector('.tabs--toggle-list-map');
 const tabListMapBtns = tabListMap.querySelectorAll('.btn');
@@ -23,7 +23,7 @@ const getActiveMode = (elements) => {
     }
   }
 };
-
+//переключение таба список/карта
 const getListMapMode = () => {
   if (getActiveMode(tabListMapBtns) === 'list') {
     return 'listMode';
@@ -31,18 +31,23 @@ const getListMapMode = () => {
     return 'MapMode';
   }
 };
+//переключение таба купаить/продать
 const getBuySellMode = () => {
-  if (getActiveMode(tabBuySellBtns) === 'buyer') {
+  if (getActiveMode(tabBuySellBtns) === 'sell') {
+    // was buyer
     return 'BuyerMode';
   } else {
     return 'SellerMode';
   }
 };
-
+//определение какое модальное окно открыть
 const getModalMode = () => {
-  if (getListMapMode() === 'MapMode' || getBuySellMode() === 'SellerMode') {
+  if (getListMapMode() === 'MapMode' || getBuySellMode() === 'BuyerMode') {
+    // modal--sell
+    //SellerMode
     return 'sell';
-  } else {
+  } // modal--buy
+  else {
     return 'buy';
   }
 };
